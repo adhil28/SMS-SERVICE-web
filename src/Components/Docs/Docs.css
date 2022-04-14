@@ -1,0 +1,10 @@
+.code{
+    padding: 30px;
+    background-color: rgb(218, 218, 218);
+    border-radius: 15px;
+    word-spacing: 6px;
+    font-size: 15px;
+    font-family: monospace;
+    margin-top: 10px;
+    line-height: 30px;
+}
