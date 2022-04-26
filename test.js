@@ -1,0 +1,8 @@
+let newDate = new Date()
+newDate.setUTCDate()
+newDate.setUTCMonth()
+newDate.setUTCFullYear()
+newDate.setHours(0)
+newDate.setMinutes(0)
+newDate.setMilliseconds(0)
+newDate.setSeconds(0)

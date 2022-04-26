@@ -1,11 +1,15 @@
 import { Container } from '@mui/material'
-import React from 'react'
+import React, { useEffect } from 'react'
 import TopPanel from '../TopPanel/TopPanel'
 import './Docs.css'
 function Docs() {
 
   const curlyBracketOpen = "{"
   const curlyBracketClose = "}"
+  useEffect(() => {
+    document.getElementById('body').style.backgroundColor = '#ffffff'
+  }, [])
+  
   return (
     <div>
       <TopPanel active="DOCS" />

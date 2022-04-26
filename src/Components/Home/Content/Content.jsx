@@ -22,7 +22,7 @@ function Content() {
                         <img src={logo} className="banner" />
                     </div>
                     <p className='description'>Mobile SMS Service Helps you to send SMS and WhatsApp Message from server <br></br> using Android device</p>
-                    <Button variant="contained" style={{ padding: '15px 20px 15px 20px', backgroundColor: '#0176D5', borderRadius: '30px' }}>Download Mobile SMS Service</Button>
+                    <Button variant="contained" style={{ padding: '15px 20px 15px 20px', backgroundColor: '#0176D5', borderRadius: '30px',marginTop:'13px' }}>Download Mobile SMS Service</Button>
                     <div style={{ marginTop: '20px' }}>
                         <Button onClick={() => {
                             nav('/docs')
