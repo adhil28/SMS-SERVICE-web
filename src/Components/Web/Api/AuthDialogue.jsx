@@ -4,7 +4,7 @@ import React from 'react'
 function AuthDialogue({onSubmit,open,setOpen}) {
     let username,password;
     return (
-        <Dialog open={open} >
+        <Dialog key={"Ad"} open={open} >
             <DialogTitle>Auth</DialogTitle>
             <DialogContent>
                 <DialogContentText>

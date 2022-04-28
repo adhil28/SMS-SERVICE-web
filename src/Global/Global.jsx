@@ -1,0 +1,2 @@
+export const mobileToken = 'dKNo8yD3SViE-x6B3gAbeq:APA91bF_0_zdyH-9EeLIMKA7GYAZt4rd97Yq45Pi6A_pv_ms813SwKBGJkh-De7qIpU-1g94I8UDFpNLDEc-hxeZLVz8K5RtGykAS_wk9hGIpR7SBZJFmpg3Om9RDgorI9RlO9ilLCrE'
+export const api = 'null'

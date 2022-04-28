@@ -1,4 +1,4 @@
-import { app } from '../../../Config/Config'
+import { app } from '../../../Global/Config'
 import { getAuth, signInAnonymously } from "firebase/auth";
 
 const auth = getAuth(app);

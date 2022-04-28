@@ -4,15 +4,18 @@ import '../Web.css'
 import AutorenewRoundedIcon from '@mui/icons-material/AutorenewRounded';
 import WhatChart from './Chart/WhatChart';
 import { sendMessage, onMessageRecived } from '../Helper/Fcm'
-import { mobileToken } from '../../../Config/Global'
+import { mobileToken } from '../../../Global/Global'
 import { getData } from '../Helper/FireStore';
 import LightModeIcon from '@mui/icons-material/LightMode';
 import MessagesList from './MessagesList/MessagesList';
-
+import WakeUpDialogue from './WakeUpDialogue'
+import ProgressDialogue from '../../ProgressDialogue/ProgressDialogue';
 function Whatsapp() {
 
     const [data, setdata] = useState([])
-
+    const [open, setOpen] = useState(false)
+    const [openProgressDialogue, setOpenProgressDialogue] = useState(false)
+        ;
     let retry = 0
 
     const fetchDetails = () => {
@@ -59,7 +62,9 @@ function Whatsapp() {
                         }} color="warning" startIcon={<AutorenewRoundedIcon />} fullWidth style={{ borderRadius: '10px', padding: '15px' }} variant="outlined">Reload graph</Button>
                     </Grid>
                     <Grid item xs={12} md={6}>
-                        <Button color="info" startIcon={<LightModeIcon />} fullWidth style={{ borderRadius: '10px', padding: '15px' }} variant="outlined">Set wake up message</Button>
+                        <Button onClick={()=>{
+                            setOpen(true)
+                        }} color="info" startIcon={<LightModeIcon />} fullWidth style={{ borderRadius: '10px', padding: '15px' }} variant="outlined">Set wake up message</Button>
                     </Grid>
 
                 </Grid>
@@ -69,6 +74,16 @@ function Whatsapp() {
                     {data.length === 0 ? <CircularProgress /> : <MessagesList data={data} />}
                 </center>
             </div>
+            <WakeUpDialogue key={"whatsapp-wd"} open={open} setOpen={setOpen} onSubmit={(phone) => {
+                setOpenProgressDialogue(true)
+                sendMessage({ "req": "wms-api", "web": true,phone }, mobileToken).then((r) => {
+                    onMessageRecived().then((m) => {
+                        setOpenProgressDialogue(false)
+                        alert('Wake up message set successfully')
+                    })
+                })
+            }} />
+            <ProgressDialogue open={openProgressDialogue} key="whatsapp-pd" />
         </div>
     )
 }

@@ -4,7 +4,7 @@ import '../Web.css'
 import AutorenewRoundedIcon from '@mui/icons-material/AutorenewRounded';
 import SmsChart from './Chart/SmsChart';
 import { sendMessage, onMessageRecived } from '../Helper/Fcm'
-import { mobileToken } from '../../../Config/Global'
+import { mobileToken } from '../../../Global/Global'
 import { getData } from '../Helper/FireStore';
 import MessagesList from './MessagesList/MessagesList'
 

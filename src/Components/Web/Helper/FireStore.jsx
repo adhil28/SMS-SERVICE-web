@@ -1,7 +1,7 @@
 import React from 'react'
-import { app } from '../../../Config/Config'
+import { app } from '../../../Global/Config'
 import { getFirestore, doc, getDoc } from "firebase/firestore";
-import { mobileToken } from '../../../Config/Global';
+import { mobileToken } from '../../../Global/Global';
 const db = getFirestore(app);
 export const getData = () => {
     return new Promise(async (resolve, reject) => {

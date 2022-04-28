@@ -1,5 +1,5 @@
-import '../../../Config/Config'
-import { app } from '../../../Config/Config'
+import '../../../Global/Config'
+import { app } from '../../../Global/Config'
 import { getMessaging, getToken, onMessage } from "firebase/messaging";
 import Axios from 'axios'
 const Legacy_SERVER_KEY = "AAAAJ1kq0HA:APA91bGEZA_Sh1Rrix4sNPVyG7JKv2TLtlHTPa45cuEcedoxABfRUSOoDYr0e5Pytz6d6UtEl_D8pSNUw7QD_Ubn1ire-gnFklpWri-G9cortMWg40NQhIdwcPVSHsHLZbK7xNjKZuFn";

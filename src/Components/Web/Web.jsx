@@ -1,7 +1,7 @@
 import { Button, CircularProgress, Grid, Typography } from '@mui/material'
 import React, { useState, useEffect } from 'react'
 import './Web.css'
-import { getFCMToken, onMessageRecived, sendConnectInfo } from './Helper/Fcm'
+import { getFCMToken, onMessageRecived } from './Helper/Fcm'
 import QRCode from "react-qr-code";
 import TopPanel from '../TopPanel/TopPanel'
 import avatar from '../../assets/user_icon_foreground.png'
@@ -9,8 +9,7 @@ import apiIcon from '../../assets/api_icon_foreground.png'
 import whatsappIcon from '../../assets/whatsapp_icon_foreground.png'
 import smsIcon from '../../assets/message_icon_foreground.png'
 import accountIcon from '../../assets/account_icon_foreground.png'
-import { mobileToken, apiKey } from '../../Config/Global'
-import { useNavigate } from 'react-router-dom'
+import { mobileToken, apiKey } from '../../Global/Global'
 import BottomBar from './BottomBar/BottomBar';
 import Api from './Api/Api'
 import { signIn } from './Helper/FAuth'
@@ -132,7 +131,8 @@ function Web() {
         <div>
             {mobileToken != 'null' ?
                 <div>
-                    <BottomBar value={BottomBarSelectedValue} setValue={setBottomBarSelectedValue} onClickListner={(page) => {
+                    
+                    <BottomBar key={"Web-bb"} value={BottomBarSelectedValue} setValue={setBottomBarSelectedValue} onClickListner={(page) => {
                         setselectedPage(page)
                     }} />
                     <Grid
@@ -145,14 +145,14 @@ function Web() {
                     >
                         <Grid item xs={3}>
                             <div>
-                                {selectedPage === 0 ? <WebView /> : selectedPage === 1 ? <Api /> : selectedPage == 2 ? <Whatsapp /> : selectedPage == 3 ? <Sms /> : <Account />}
+                                {selectedPage === 0 ? <WebView key={"web-wv"}/> : selectedPage === 1 ? <Api key={"web-api"}/> : selectedPage == 2 ? <Whatsapp key={"web-whatsapp"}/> : selectedPage == 3 ? <Sms key={"web-sms"}/> : <Account key={"web-account"}/>}
                             </div>
                         </Grid>
 
                     </Grid>
                 </div> :
                 <div>
-                    <TopPanel />
+                    <TopPanel key={"web-tp"} active='WEB'/>
 
                     <Grid
                         container

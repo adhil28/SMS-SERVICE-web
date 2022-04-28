@@ -13,7 +13,7 @@ function MessagesList({ data }) {
         <List sx={{ width: '100%', maxWidth: '90%', bgcolor: 'background.paper',cursor:'move' }}>
             {data.map((message, i) => {
                 return (
-                    <ListItem>
+                    <ListItem key={"ml-"+i}>
                         <ListItemAvatar>
                             <Avatar>
                                 <WhatsappIcon />

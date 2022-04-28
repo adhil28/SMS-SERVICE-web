@@ -6,11 +6,13 @@ import BlockRoundedIcon from '@mui/icons-material/BlockRounded';
 import LockClockRoundedIcon from '@mui/icons-material/LockClockRounded';
 import ContentCopyRoundedIcon from '@mui/icons-material/ContentCopyRounded';
 import { onMessageRecived, sendMessage } from '../Helper/Fcm';
-import { mobileToken } from '../../../Config/Global'
+import { api, mobileToken } from '../../../Global/Global'
 import AuthDialogue from './AuthDialogue';
+import ProgressDialogue from '../../ProgressDialogue/ProgressDialogue';
 
 function Api() {
     const [open, setOpen] = useState(false)
+    const [openProgressDialogue, setOpenProgressDialogue] = useState(false)
 
     return (
         <div>
@@ -25,11 +27,12 @@ function Api() {
                 <Grid container spacing={2}>
                     <Grid item xs={12} md={6}>
                         <Button onClick={() => {
+                            setOpenProgressDialogue(true)
                             sendMessage({ "req": "rvk-api", "web": true }, mobileToken).then((r) => {
-                                console.log('revoke api', mobileToken);
                                 onMessageRecived().then((m) => {
                                     if (m.data.req == "rvk-api") {
                                         window.location.reload()
+                                        setOpenProgressDialogue(false)
                                     }
                                 })
                             })
@@ -37,10 +40,13 @@ function Api() {
                     </Grid>
                     <Grid item xs={12} md={6}>
                         <Button onClick={() => {
+                            setOpenProgressDialogue(true)
                             sendMessage({ "req": "tgl-api", "web": true }, mobileToken).then((r) => {
                                 onMessageRecived().then((m) => {
+                                   
                                     if (m.data.req == "tgl-api") {
-                                        alert('Done')
+                                        alert('Done') 
+                                        setOpenProgressDialogue(false)
                                     }
                                 })
                             })
@@ -52,21 +58,25 @@ function Api() {
                         }} color="success" startIcon={<LockClockRoundedIcon />} fullWidth style={{ borderRadius: '10px', padding: '15px' }} variant="outlined">enable/disable Authentication</Button>
                     </Grid>
                     <Grid item xs={12} md={6}>
-                        <Button color="error" startIcon={<ContentCopyRoundedIcon />} fullWidth style={{ borderRadius: '10px', padding: '15px' }} variant="outlined">copy api</Button>
+                        <Button onClick={()=>{
+                            alert(api)
+                        }} color="error" startIcon={<ContentCopyRoundedIcon />} fullWidth style={{ borderRadius: '10px', padding: '15px' }} variant="outlined">copy api</Button>
                     </Grid>
                 </Grid>
             </div>
-            <AuthDialogue onSubmit={(username, password) => {
-                console.log(username,password);
+            <AuthDialogue key={"Api-ad"} onSubmit={(username, password) => {
+                setOpenProgressDialogue(true)
                 sendMessage({ username, password, "req": "ath-api", "web": true }, mobileToken).then((r) => {
-                    console.log(r);
                     onMessageRecived().then((m) => {
                         if (m.data.req == "ath-api") {
                             alert('Authentication added')
+                            setOpen(false)
+                            setOpenProgressDialogue(false)
                         }
                     })
                 })
             }} open={open} setOpen={setOpen} />
+            <ProgressDialogue key={"Api-pd"} open={openProgressDialogue} />
         </div>
     )
 }
