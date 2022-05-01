@@ -1,2 +1,15 @@
-export const mobileToken = 'dKNo8yD3SViE-x6B3gAbeq:APA91bF_0_zdyH-9EeLIMKA7GYAZt4rd97Yq45Pi6A_pv_ms813SwKBGJkh-De7qIpU-1g94I8UDFpNLDEc-hxeZLVz8K5RtGykAS_wk9hGIpR7SBZJFmpg3Om9RDgorI9RlO9ilLCrE'
+import { sendMessage } from "../Components/Web/Helper/Fcm"
+
+export const mobileToken = 'null'
 export const api = 'null'
+export const isValidToken = (token) => {
+    return new Promise((resolve,reject)=>{
+        sendMessage({msg:'validate token',code:'801'},token).then((res)=>{
+            if(res.data.results[0].error==null){
+                resolve(true)
+            }else{
+                resolve(false)
+            }
+        })
+    })
+}

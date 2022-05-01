@@ -11,7 +11,6 @@ export const getFCMToken = async () => {
 }
 
 export const onMessageRecived = () => {
-
     return new Promise((resolve, reject) => {
         onMessage(messaging, (payload) => {
             resolve(payload)

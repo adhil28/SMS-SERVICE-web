@@ -9,13 +9,15 @@ import apiIcon from '../../assets/api_icon_foreground.png'
 import whatsappIcon from '../../assets/whatsapp_icon_foreground.png'
 import smsIcon from '../../assets/message_icon_foreground.png'
 import accountIcon from '../../assets/account_icon_foreground.png'
-import { mobileToken, apiKey } from '../../Global/Global'
+import { mobileToken, apiKey, api, validateToken, isValidToken } from '../../Global/Global'
 import BottomBar from './BottomBar/BottomBar';
 import Api from './Api/Api'
 import { signIn } from './Helper/FAuth'
 import Whatsapp from './Whatsapp/Whatsapp'
 import Sms from './Sms/Sms'
 import Account from './Account/Account'
+import localforage from 'localforage';
+import ProgressDialogue from '../ProgressDialogue/ProgressDialogue';
 function Web() {
 
     const [QrLoaded, setQrLoaded] = useState(false)
@@ -23,6 +25,7 @@ function Web() {
     const [selectedPage, setselectedPage] = useState(0)
     const [BottomBarSelectedValue, setBottomBarSelectedValue] = useState(0);
     const [connected, setConnected] = useState(false)
+    const [openProgressDialogue, setopenProgressDialogue] = useState(false)
 
     const QrCodeDiv = () => (
         <div>
@@ -101,26 +104,51 @@ function Web() {
         </div>
     )
 
-    useEffect(() => {
-        document.getElementById('body').style.backgroundColor = '#f1f1f1'
+    const generateNewToken = () => {
         getFCMToken().then((token) => {
-            console.log(token);
             setMyToken(token)
             setQrLoaded(true)
             onMessageRecived().then((payload) => {
+                setopenProgressDialogue(true)
                 if (payload.data.sender != null) {
                     signIn().then((r) => {
-                        console.log('Mobile token set');
-                        mobileToken = payload.data.sender
-                        setConnected(true)
+                        localforage.setItem('crednetials', { token: payload.data.sender, api: payload.data.api }, (err) => {
+                            mobileToken = payload.data.sender
+                            api = payload.data.api
+                            setopenProgressDialogue(false)
+                            setConnected(true)
+                        })
                     }).catch((error) => {
-                        console.log('Unexpected error occured');
+                        setopenProgressDialogue(false)
                         window.location.href = "/"
                     })
-
+                }else{
+                    setopenProgressDialogue(false)
+                    alert('some error has happened. Please refresh your website');
                 }
             })
         })
+    }
+
+    useEffect(() => {
+        document.getElementById('body').style.backgroundColor = '#f1f1f1'
+        localforage.getItem('crednetials', function (err, crednetials) {
+            if (crednetials != null) {
+                isValidToken(crednetials.token).then((result) => {
+                    if (result == true) {
+                        api = crednetials.api
+                        mobileToken = crednetials.token
+                        setConnected(true)
+                    } else {
+                        generateNewToken()
+                    }
+
+                })
+            } else {
+                generateNewToken()
+            }
+        });
+
 
     }, [])
 
@@ -131,7 +159,7 @@ function Web() {
         <div>
             {mobileToken != 'null' ?
                 <div>
-                    
+
                     <BottomBar key={"Web-bb"} value={BottomBarSelectedValue} setValue={setBottomBarSelectedValue} onClickListner={(page) => {
                         setselectedPage(page)
                     }} />
@@ -145,14 +173,14 @@ function Web() {
                     >
                         <Grid item xs={3}>
                             <div>
-                                {selectedPage === 0 ? <WebView key={"web-wv"}/> : selectedPage === 1 ? <Api key={"web-api"}/> : selectedPage == 2 ? <Whatsapp key={"web-whatsapp"}/> : selectedPage == 3 ? <Sms key={"web-sms"}/> : <Account key={"web-account"}/>}
+                                {selectedPage === 0 ? <WebView key={"web-wv"} /> : selectedPage === 1 ? <Api key={"web-api"} /> : selectedPage == 2 ? <Whatsapp key={"web-whatsapp"} /> : selectedPage == 3 ? <Sms key={"web-sms"} /> : <Account key={"web-account"} />}
                             </div>
                         </Grid>
 
                     </Grid>
                 </div> :
                 <div>
-                    <TopPanel key={"web-tp"} active='WEB'/>
+                    <TopPanel key={"web-tp"} active='WEB' />
 
                     <Grid
                         container
@@ -172,6 +200,7 @@ function Web() {
                 </div>
             }
 
+            <ProgressDialogue open={openProgressDialogue}/>
 
         </div>
 

@@ -8,6 +8,7 @@ import { onMessageRecived, sendMessage } from '../Helper/Fcm'
 import { mobileToken } from '../../../Global/Global'
 import ProgressDialogue from '../../ProgressDialogue/ProgressDialogue'
 import { useState } from 'react'
+import localforage from 'localforage'
 function Account() {
     const [openProgresDialogue, setopenProgresDialogue] = useState(false)
     return (
@@ -16,14 +17,14 @@ function Account() {
                 <center>
                     <img src={avatar} alt="user" style={{ width: '120px' }} />
                     <br />
-                    <Typography component={'span'}>SMS Service : <div style={{ width: '10px', background: 'green', height: '10px', borderRadius: '50%', display: 'inline-block' }} /></Typography>
+                    <Typography component={'span'}>Name</Typography>
                     <br />
-                    <Typography component={'span'} style={{ margTop: '0' }}>WhatsApp Service : <div style={{ width: '10px', background: 'green', height: '10px', borderRadius: '50%', display: 'inline-block' }} /></Typography>
+                    <Typography component={'span'} style={{ margTop: '0' }}></Typography>
                 </center>
             </div>
             <div className="classic pro">
                 <Grid container spacing={2}>
-                    <Grid item xs={12} md={6}>
+                    <Grid item xs={12} md={12}>
                         <Button onClick={() => {
                             setopenProgresDialogue(true)
                             sendMessage({ "req": "lgt-api", "web": true }, mobileToken).then((r) => {
@@ -31,25 +32,13 @@ function Account() {
                                     if (m.data.req == "lgt-api") {
                                         setopenProgresDialogue(false)
                                         mobileToken = 'null'
-                                        window.location.reload()
+                                        localforage.clear((r)=>{
+                                            window.location.reload()
+                                        })
                                     }
                                 })
                             })
                         }} color="warning" startIcon={<ExitIcon />} fullWidth style={{ borderRadius: '10px', padding: '15px' }} variant="outlined">Log out</Button>
-                    </Grid>
-                    <Grid item xs={12} md={6}>
-                        <Button onClick={() => {
-                            setopenProgresDialogue(true)
-                            sendMessage({ "req": "lgt-api", "web": true }, mobileToken).then((r) => {
-                                onMessageRecived().then((m) => {
-                                    if (m.data.req == "lgt-api") {
-                                        setopenProgresDialogue(false)
-                                        mobileToken = 'null'
-                                        window.location.reload()
-                                    }
-                                })
-                            })
-                        }} color="error" startIcon={<DeleteIcon />} fullWidth style={{ borderRadius: '10px', padding: '15px' }} variant="outlined">Delete Account forever</Button>
                     </Grid>
                 </Grid>
             </div>
