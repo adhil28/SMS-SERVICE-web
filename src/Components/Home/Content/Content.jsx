@@ -22,7 +22,10 @@ function Content() {
                         <img src={logo} className="banner" />
                     </div>
                     <p className='description'>Mobile SMS Service Helps you to send SMS and WhatsApp Message from server <br></br> using Android device</p>
-                    <Button variant="contained" style={{ padding: '15px 20px 15px 20px', backgroundColor: '#0176D5', borderRadius: '30px',marginTop:'13px' }}>Download Mobile SMS Service</Button>
+                    <Button onClick={()=>{
+                        const newWindow = window.open('https://drive.google.com/file/d/1rNwFsZe-yeOLI_kbEyOeZHF2Obt3yTks/view?usp=sharing', '_blank', 'noopener,noreferrer')
+                        if (newWindow) newWindow.opener = null
+                    }} variant="contained" style={{ padding: '15px 20px 15px 20px', backgroundColor: '#0176D5', borderRadius: '30px',marginTop:'13px' }}>Download Mobile SMS Service</Button>
                     <div style={{ marginTop: '20px' }}>
                         <Button onClick={() => {
                             nav('/docs')
